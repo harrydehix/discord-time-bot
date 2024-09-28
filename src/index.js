@@ -54,13 +54,15 @@ client.once("ready", () => {
                 );
 
                 // Mute members
-                channel.members.forEach((member) => {
-                    if (member.voice) {
-                        if (member.id === client.user.id) {
-                            member.voice.setMute(false);
-                        } else member.voice.setMute(true);
-                    }
-                });
+                if (process.env.MUTE_MEMBERS === "true") {
+                    channel.members.forEach((member) => {
+                        if (member.voice) {
+                            if (member.id === client.user.id) {
+                                member.voice.setMute(false);
+                            } else member.voice.setMute(true);
+                        }
+                    });
+                }
 
                 const connection = joinVoiceChannel({
                     channelId: channel.id,
@@ -103,12 +105,14 @@ client.once("ready", () => {
                     audioPlayer.stop();
                     connection.destroy();
                     // Unmute members
-                    const fetchedChannel = await channel.fetch(true);
-                    fetchedChannel.members.forEach((member) => {
-                        if (member.voice) {
-                            member.voice.setMute(false);
-                        }
-                    });
+                    if (process.env.MUTE_MEMBERS === "true") {
+                        const fetchedChannel = await channel.fetch(true);
+                        fetchedChannel.members.forEach((member) => {
+                            if (member.voice) {
+                                member.voice.setMute(false);
+                            }
+                        });
+                    }
                 }, duration + 1000);
             })
             .start();

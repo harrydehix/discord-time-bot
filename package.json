@@ -1,0 +1,26 @@
+{
+    "name": "time-bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js"
+    },
+    "keywords": [
+        "timebot",
+        "discord-bot"
+    ],
+    "author": "harrydehix",
+    "license": "ISC",
+    "dependencies": {
+        "@discordjs/voice": "^0.17.0",
+        "@harrydehix/everyjs": "^0.0.13",
+        "discord.js": "^14.16.2",
+        "dotenv": "^16.4.5",
+        "ffmpeg-static": "^5.2.0",
+        "get-mp3-duration": "^1.0.0",
+        "libsodium-wrappers": "^0.7.15",
+        "luxon": "^3.5.0"
+    }
+}

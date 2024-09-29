@@ -33,8 +33,8 @@ client.once("ready", () => {
 
     // 1. Set the bots activity state
     client.user.setActivity({
-        name: " die Uhr an🕰️",
-        type: ActivityType.Watching,
+        name: process.env.ACTIVITY_TEXT,
+        type: ActivityType[process.env.ACTIVITY_TYPE],
     });
 
     const guilds = client.guilds.cache;

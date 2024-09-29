@@ -57,7 +57,11 @@ client.once("ready", () => {
         }
 
         // 4. Play audio on the voice channel every hour
-        playAudioOfCurrentHour(DateTime.now(), guild, channel);
+        playAudioOnChannel(
+            guild,
+            channel,
+            path.resolve(__dirname + `/../audios/welcome-message.mp3`)
+        );
         const task = every(1, "hour").do((time) =>
             playAudioOfCurrentHour(time, guild, channel)
         );
@@ -74,6 +78,20 @@ client.login(process.env.DISCORD_BOT_TOKEN);
  * @param {GuildBasedChannel} channel the target channel
  */
 function playAudioOfCurrentHour(time, guild, channel) {
+    const resourcePath = path.resolve(
+        __dirname + `/../audios/clock-${time.hour}.mp3`
+    );
+
+    playAudioOnChannel(guild, channel, resourcePath);
+}
+
+/**
+ * Plays an audio on the passed guild#channel.
+ * @param {DateTime} time the current time (luxon date)
+ * @param {Guild} guild the target guild
+ * @param {string} resourcePath the audio's path
+ */
+function playAudioOnChannel(guild, channel, resourcePath) {
     // 1. Mute members
     if (process.env.MUTE_MEMBERS === "true") {
         console.log(`${guild.name}#${channel.name}: Muting members`);
@@ -108,18 +126,13 @@ function playAudioOfCurrentHour(time, guild, channel) {
     audioPlayer.on("error", (err) => {
         console.error(`${guild.name}#${channel.name}: ` + err);
     });
-
-    const resourcePath = path.resolve(
-        __dirname + `/../audios/clock-${time.hour}.mp3`
-    );
-
     const buffer = fs.readFileSync(resourcePath);
     const resource = createAudioResource(resourcePath);
     const duration = getMp3Duration(buffer);
 
     // 4. Play audio
     console.log(
-        `${guild.name}#${channel.name}: Playing audio (${resourcePath}) for hour ${time.hour}`
+        `${guild.name}#${channel.name}: Playing audio (${resourcePath})`
     );
     audioPlayer.play(resource);
 

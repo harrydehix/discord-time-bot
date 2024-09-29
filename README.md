@@ -3,6 +3,9 @@
 This simple bot will join a configurable channel of your server every hour and play a configurable audio. By default it will tell you the time in german. You
 can change the audio by overwriting the mp3 files in `/audios`.
 
+When the bot is started successfully it will play a welcome audio on the configured voice channel. You
+can change it by overwriting the `welcome-message.mp3` file.
+
 ## Installation
 
 1. Rename the `.env.sample` file to `.env`.
